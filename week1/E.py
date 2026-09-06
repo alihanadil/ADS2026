@@ -6,16 +6,13 @@ for i in range(2, len(checks)):
     if checks[i]:
         for j in range(i*i, len(checks), i):
             checks[j] = False
-                
-# for i in range(len(checks)):
-#     if checks[i]:
-#         print(i, end=" ")
 
 for i in range(2, len(checks)):
     if checks[i]:
         while n % i == 0:
             factors.append(i)
             n //= i
+            
 if n > 1:
     factors.append(n)
 for i in factors:

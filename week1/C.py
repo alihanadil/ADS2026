@@ -1,7 +1,5 @@
 n = int(input())
 
-
-# print("YES" if checks[n] else "NO")
 def is_prime(n):
     if n == 1:
         return "NO"
@@ -11,4 +9,5 @@ def is_prime(n):
             return "NO"
         div += 1
     return "YES"
+
 print(is_prime(n))
