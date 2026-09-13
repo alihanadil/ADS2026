@@ -18,4 +18,5 @@ while boris and nursik:
         nursik = nursik[1: ]
         nursik.append(n)
     moves += 1
+    
 print(f"Boris {moves}" if not nursik else f"Nursik {moves}")
