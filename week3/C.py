@@ -1,4 +1,3 @@
-
 n, m = map(int, input().split())
 code = []
 for i in map(int, input().split()):

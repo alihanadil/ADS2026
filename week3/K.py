@@ -42,3 +42,4 @@ for i in range(k):
         print(-1)
         continue
     print(r, col)
+    # print(snake[r] if r < a else snake[r - 1])

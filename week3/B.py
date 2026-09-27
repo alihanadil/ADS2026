@@ -16,7 +16,7 @@ def upper(nums, target):
             l = m + 1
         else:
             r = m
-    return 
+    return l
 n, q = map(int, input().split())
 lst = list(map(int, input().split()))
 lst.sort()
