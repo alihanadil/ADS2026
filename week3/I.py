@@ -1,23 +1,25 @@
-n, k = map(int, input().split())
-lst = []
-l = 10000
-r = 0
-for i in range(n):
-    lst.append(list(map(int, input().split())))
-    m1 = min(lst[-1])
-    m2 = max(lst[-1])
-    if m2 > r:
-        r =  m2
-    if m1 < l:
-        l = m1
-while l < r:
-    m = (l + r) // 2
-    cnt = 0
-    for i in lst:
-        if i[2] <= m and i[3] <= m:
-            cnt += 1
-    if cnt >= k:
-        r = m
-    else:
-        l = m + 1
-print(l)
+n, t = map(int, input().split())
+lst = list(map(int, input().split()))
+# print(lst)
+def ghoul(nums, k):
+    l = max(nums)
+    r = sum(nums)
+    while l < r:
+        m = (l + r) // 2
+        temp  = 0
+        cnt = 0
+        # print("m: ", m)
+        for i in nums:
+            if temp + i > m:
+                # print("temp: ", temp)
+                cnt += 1
+                temp = i
+            else:
+                temp += i
+        if cnt + 1 > k:
+            l = m + 1
+        else:
+            r = m
+        # print("l, r: ", l, r)
+    return l
+print(ghoul(lst, t))

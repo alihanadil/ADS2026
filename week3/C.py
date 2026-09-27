@@ -1,3 +1,4 @@
+
 n, m = map(int, input().split())
 code = []
 for i in map(int, input().split()):
@@ -7,18 +8,15 @@ for i in map(int, input().split()):
         code.append(i)
 # print(code)
 def lower(nums, target):
-    l = 0
-    r = len(nums) - 1
-    while l <= r:
+    l, r = 0, len(nums)          # r is exclusive
+    while l < r:
         m = (l + r) // 2
         if nums[m] < target:
             l = m + 1
-        elif nums[m] == target and (m == 0 or nums[m - 1] != target):
-            l = m
-            break
         else:
-            r = m - 1
+            r = m
     return l
+
 for i in range(m):
     t = int(input())
     print(lower(code, t) + 1)

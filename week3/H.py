@@ -1,25 +1,23 @@
-n, t = map(int, input().split())
+n, k = map(int, input().split())
 lst = list(map(int, input().split()))
-# print(lst)
-def ghoul(nums, k):
-    l = max(nums)
-    r = sum(nums)
+sums = [0]
+for i in lst:
+    sums.append(sums[-1] + i)
+lens = []
+# print(lst, sums)
+def sub(nums, start, target):
+    l = start
+    r = len(nums) 
+    exist = False
     while l < r:
         m = (l + r) // 2
-        temp  = 0
-        cnt = 0
-        # print("m: ", m)
-        for i in nums:
-            if temp + i > m:
-                # print("temp: ", temp)
-                cnt += 1
-                temp = i
-            else:
-                temp += i
-        if cnt + 1 > k:
-            l = m + 1
-        else:
+        s = nums[m] - nums[start]
+        if s >= target:
             r = m
-        # print("l, r: ", l, r)
-    return l
-print(ghoul(lst, t))
+            exist = True
+        else:
+            l = m + 1
+    return r - start if exist else len(nums)
+for i in range(len(lst) - 1):
+    lens.append(sub(sums, i, k))
+print(min(lens) if lens else n)
