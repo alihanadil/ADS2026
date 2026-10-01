@@ -1,3 +1,4 @@
+n = int(input())
 class TreeNode:
     def __init__(self, data):
         self.data = data
@@ -6,7 +7,7 @@ class TreeNode:
 
 def insert(root, data):
     new = TreeNode(data)
-    if root is None:
+    if not root:
         return new
     curr = root
     while True:
@@ -22,25 +23,26 @@ def insert(root, data):
             curr = curr.right
 
 def bfs(root):
-    if not root:
-        return 0
+    if root is None:
+        return
     current = [root]
-    cnt = 0
+    leaves = 0
     while current:
         len_lvl = len(current)
         new = []
         for i in range(len_lvl):
             node = current.pop()
-            if node.left and node.right:
-                cnt += 1
             if node.left:
                 new.append(node.left)
             if node.right:
                 new.append(node.right)
+            if node.right is None and node.left is None:
+                leaves += 1
         current = new
-    return cnt
-n = int(input())
+    print(leaves)
+
 tree = None
-for i in map(int, input().split()):
+lst = list(map(int, input().split()))
+for i in lst:
     tree = insert(tree, i)
-print(bfs(tree))
+bfs(tree)

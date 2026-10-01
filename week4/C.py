@@ -4,23 +4,22 @@ class TreeNode:
         self.left = None
         self.right = None
 
-def insert(node, data):
+def insert(root, data):
     new = TreeNode(data)
-    if node is None:
+    if root is None:
         return new
-    curr = node
-    while curr is not None:
-        if curr.data >= data and curr.left is not None:
-            curr = curr.left 
-        elif curr.data < data and curr.right is not None:
-            curr = curr.right 
+    curr = root
+    while True:
+        if data < curr.data:
+            if curr.left is None:
+                curr.left = new 
+                return root 
+            curr = curr.left
         else:
-            break
-    if curr.data >= data:
-        curr.left = new
-    elif curr.data < data:
-        curr.right = new
-    return node 
+            if curr.right is None:
+                curr.right = new 
+                return root 
+            curr = curr.right
 
 def preorder(root):
     if root is None:
