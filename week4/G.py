@@ -7,6 +7,7 @@ class TreeNode:
 def dfs(root):
     if root is None:
         return 0
+    depth = 0
     stack = [(root, "new")]
     heights = {}
     best = 0

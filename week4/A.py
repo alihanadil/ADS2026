@@ -6,23 +6,23 @@ class TreeNode:
 
 n, comms = map(int, input().split())
 
-def insert(root, data):
-    if root is None:
+def insert(node, data):
+    if node is None:
         return TreeNode(data)
-    curr = root
+    curr = node
     cnt = 0
     while True:
         if cnt == 100:
-            return root
+            return node
         if data <= curr.data:
             if curr.left is None:
                 curr.left = TreeNode(data) 
-                return root 
+                return node 
             curr = curr.left
         else:
             if curr.right is None:
                 curr.right = TreeNode(data) 
-                return root 
+                return node 
             curr = curr.right
         cnt += 1
 

@@ -4,21 +4,21 @@ class TreeNode:
         self.left = None
         self.right = None
 
-def insert(root, data):
+def insert(node, data):
     new = TreeNode(data)
-    if root is None:
+    if node is None:
         return new
-    curr = root
+    curr = node
     while True:
         if data < curr.data:
             if curr.left is None:
                 curr.left = new
-                return root
+                return node
             curr = curr.left 
         else:
             if curr.right is None:
                 curr.right = new
-                return root
+                return node
             curr = curr.right
 def reverse_inorder(root, total):
     if root is None:

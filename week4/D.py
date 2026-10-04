@@ -18,8 +18,9 @@ def insert(root, data):
             curr = curr.left 
         else:
             if curr.right is None:
-                curr.right = new
-                return root
+                if curr.right is None:
+                    curr.right = new
+                    return root
             curr = curr.right
 
 def bfs(root):
