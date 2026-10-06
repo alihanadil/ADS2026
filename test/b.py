@@ -1,31 +1,44 @@
-def upper(lst, target):
-    l,r  = 0, len(lst)
-    while l < r:
-        m = (l + r) // 2
-        if lst[m] <= target:
-            l = m + 1
+class TreeNode:
+    def __init__ (self, data):
+        self.data = data
+        self.left = None 
+        self.right = None 
+def insert(root, data):
+    if root is None:
+        return TreeNode(data)
+    cur = root 
+    while True:
+        if data < cur.data:
+            if cur.left is None:
+                cur.left = TreeNode(data)
+                return root 
+            cur = cur.left
         else:
-            r = m
-    return l 
-def lower(lst, target):
-    l, r = 0, len(lst)
-    while l < r:
-        m = (l + r) // 2
-        if lst[m] < target:
-            l = m + 1
-        else:
-            r = m 
-    return l 
-a, b = map(int, input().split())
-nums = list(map(int, input().split()))
-nums.sort()
-for i in range(b):
-    query = list(map(int, input().split()))
-    l1 = lower(nums, query[0]) + 1
-    r1 = upper(nums, query[1])
-    l2 = lower(nums, query[2]) + 1
-    r2 = upper(nums, query[3])
-    length1 = r1 - l1 + 1
-    length2 = r2 - l2 + 1
-    cross = max(0, min(r1, r2) - max(l1, l2) + 1)
-    print(length1 + length2 - cross)
+            if cur.right is None:
+                cur.right = TreeNode(data)
+                return root 
+            cur = cur.right
+def bfs(root):
+    q = [root]
+    cnt = 0
+    while q:
+        node = q[0]
+        q = q[1: ]
+        cnt += 1
+        if node.left:
+            q.append(node.left)
+        if node.right:
+            q.append(node.right)
+    return cnt
+n = int(input())
+tree = None
+for i in map(int, input().split()):
+    tree = insert(tree, i)
+k = int(input())
+cur = tree
+while cur.data != k:
+    if k < cur.data:
+        cur = cur.left
+    else:
+        cur = cur.right
+print(bfs(cur))

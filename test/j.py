@@ -1,17 +1,43 @@
-n, k = map(int, input().split())
-lst = []
-l, r = 0, 0
-for i in range(n):
-    lst.append(list(map(int, input().split())))
-    r = max(r, lst[-1][2], lst[-1][3])
-while l < r:
-    m = (l + r) // 2
-    cnt = 0
-    for i in lst:
-        if i[2] <= m and i[3] <= m:
-            cnt += 1
-    if cnt >= k:
-        r = m 
-    else:
-        l = m + 1
-print(l)
+class TreeNode:
+    def __init__(self, data):
+        self.data = data
+        self.left = None 
+        self.right = None
+def insert(root, data):
+    if root is None:
+        return TreeNode(data)
+    cur = root 
+    while True:
+        if data < cur.data:
+            if cur.left is None:
+                cur.left = TreeNode(data)
+                return root
+            cur = cur.left
+        else:
+            if cur.right is None:
+                cur.right = TreeNode(data)
+                return root
+            cur = cur.right
+
+def smallest(root, k):
+    if root is None:
+        return None
+    cur = root 
+    stack = []
+    small = []
+    while cur is not None:
+        stack.append(cur)
+        cur = cur.left
+        while cur is None and stack:
+            node = stack.pop()
+            small.append(node.data)
+            cur = node.right
+    print(small[k - 1])
+n, m = map(int, input().split())
+tree = None
+for i in map(int, input().split()):
+    tree = insert(tree, i)
+if n >= m:
+    smallest(tree, m)
+else:
+    print(-1)

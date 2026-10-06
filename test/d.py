@@ -1,27 +1,45 @@
-n = int(input())
-opps = list(map(int, input().split()))
-opps.sort()
-sums = [0]
-for o in opps:
-    sums.append(sums[-1] + o)
-def upper(lst, target):
-    l = 0
-    r = len(lst) - 1
-    ans = - 1
-    while l <= r:
-        m = (l + r) // 2
-        if lst[m] <= target:
-            ans = m 
-            l = m + 1 
+class TreeNode:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+def insert(root, data):
+    if root is None:
+        return TreeNode(data)
+    cur = root
+    while True:
+        if data < cur.data:
+            if cur.left is None:
+                cur.left = TreeNode(data)
+                return root 
+            cur = cur.left
         else:
-            r = m - 1
-    return ans 
-wons = {0: 0}
-for i in range(1, 1000):
-    wons[i] = upper(opps, i)
-rounds = int(input())
-for i in range(rounds):
-    p = int(input())
-    won = wons[p] + 1
-    s = sums[won]
-    print(won, s)
+            if cur.right is None:
+                cur.right = TreeNode(data)
+                return root 
+            cur = cur.right 
+def bfs(root):
+    current = [root]
+    sums = []
+    level = 0
+    while current:
+        len_lvl = len(current)
+        new = []
+        s = 0
+        for _ in range(len_lvl):
+            node = current.pop()
+            s += node.data
+            if node.left:
+                new.append(node.left)
+            if node.right:
+                new.append(node.right)
+        sums.append(s)
+        current = new
+        level += 1
+    print(level)
+    print(' '.join(map(str, sums)))
+n = int(input())
+tree = None
+for i in map(int, input().split()):
+    tree = insert(tree, i)
+bfs(tree)

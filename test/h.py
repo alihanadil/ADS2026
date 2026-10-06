@@ -1,22 +1,33 @@
-n, k = map(int, input().split())
-lst = list(map(int, input().split()))
-sums = [0]
-for i in lst:
-    sums.append(sums[-1] + i)
-lens = []
-def sub(nums, start, target):
-    l = start 
-    r = len(nums)
-    exist = False 
-    while l < r:
-        m = (l + r) // 2
-        s = nums[m] - nums[start]
-        if s >= target:
-            r = m 
-            exist = True 
+class TreeNode:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+def insert(root, data):
+    if root is None:
+        return TreeNode(data)
+    cur = root
+    while True:
+        if data < cur.data:
+            if cur.left is None:
+                cur.left = TreeNode(data)
+                return root 
+            cur = cur.left
         else:
-            l = m + 1
-    return r - start if exist else len(nums)
-for i in range(len(lst)):
-    lens.append(sub(sums, i, k))
-print(min(lens) if lens else n)
+            if cur.right is None:
+                cur.right = TreeNode(data)
+                return root 
+            cur = cur.right 
+def reverse_inorder(root, total):
+    if root is None:
+        return None 
+    reverse_inorder(root.right, total)
+    root.data += total[0]
+    total[0] = root.data
+    print(root.data, end=" ")
+    reverse_inorder(root.left, total)
+n = int(input())
+tree = None 
+for i in map(int, input().split()):
+    tree = insert(tree, i)
+reverse_inorder(tree, [0])
