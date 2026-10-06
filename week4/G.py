@@ -78,3 +78,53 @@ n = int(input())
 raw = list(map(int, input().split()))
 tree = build_fast(raw)
 print(dfs(tree))
+
+#2
+class TreeNode:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+def insert(node, data):
+    if node is None:
+        return TreeNode(data)
+    curr = node
+    while True:
+        if data < curr.data:
+            if curr.left is None:
+                curr.left = TreeNode(data)
+                return node
+            curr = curr.left 
+        elif data > curr.data:
+            if curr.right is None:
+                curr.right = TreeNode(data)
+                return node
+            curr = curr.right
+        else:
+            return node
+def dfs(root):
+    if root is None:
+        return 0
+    depth = 0
+    stack = [(root, "new")]
+    heights = {}
+    best = 0
+    while stack:
+        node, state = stack.pop()
+        if state == "new":
+            stack.append((node, "ready"))
+            if node.right:
+                stack.append((node.right, "new"))
+            if node.left:
+                stack.append((node.left, "new"))
+        else:
+            leftH = heights.get(node.left, 0)
+            rightH = heights.get(node.right, 0)
+            heights[node] = 1 + max(leftH, rightH)
+            best = max(leftH + rightH + 1, best)
+    return best
+n = int(input())
+tree = None
+for i in map(int, input().split()):
+    tree = insert(tree, i)
+print(dfs(tree))
