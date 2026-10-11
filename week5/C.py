@@ -1,3 +1,20 @@
+# heapq
+import heapq
+n, k = map(int, input().split())
+h = []
+heapq.heapify(h)
+for i in map(int, input().split()):
+    heapq.heappush(h, -i)
+cnt = 0
+total = 0
+while cnt < k:
+    num = heapq.heappop(h)
+    total += -num 
+    heapq.heappush(h, num + 1)
+    cnt += 1
+print(total)
+
+# self-made heap
 n, k = map(int, input().split())
 h = []
 def push(heap, x):

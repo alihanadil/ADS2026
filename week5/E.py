@@ -17,7 +17,7 @@ for i in range(n):
     else:
         print(s)
 
-# non heapq
+# self-made heap
 n, m = map(int, input().split())
 sums = []
 def push(heap, x):
