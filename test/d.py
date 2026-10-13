@@ -1,45 +1,67 @@
-class TreeNode:
-    def __init__(self, data):
-        self.data = data
-        self.left = None
-        self.right = None
-def insert(root, data):
-    if root is None:
-        return TreeNode(data)
-    cur = root
-    while True:
-        if data < cur.data:
-            if cur.left is None:
-                cur.left = TreeNode(data)
-                return root 
-            cur = cur.left
+# self-made heap
+n, m = map(int, input().split())
+h = []
+def push(heap, x):
+    heap.append(x)
+    i = len(heap) - 1
+    while i > 0:
+        parent = (i - 1) // 2
+        if heap[parent] > heap[i]:
+            heap[i], heap[parent] = heap[parent], heap[i]
+            i = parent 
         else:
-            if cur.right is None:
-                cur.right = TreeNode(data)
-                return root 
-            cur = cur.right 
-def bfs(root):
-    current = [root]
-    sums = []
-    level = 0
-    while current:
-        len_lvl = len(current)
-        new = []
-        s = 0
-        for _ in range(len_lvl):
-            node = current.pop()
-            s += node.data
-            if node.left:
-                new.append(node.left)
-            if node.right:
-                new.append(node.right)
-        sums.append(s)
-        current = new
-        level += 1
-    print(level)
-    print(' '.join(map(str, sums)))
-n = int(input())
-tree = None
+            break 
+def pop(heap):
+    top = heap[0]
+    last = heap.pop()
+    if heap:
+        heap[0] = last 
+        i = 0
+        n = len(heap) 
+        while True:
+            l = 2*i + 1
+            r = l + 1
+            smallest = i 
+            if l < n and heap[l] < heap[smallest]:
+                smallest = l 
+            if r < n and heap[r] < heap[smallest]:
+                smallest = r
+            if i == smallest:
+                break 
+            heap[i], heap[smallest] = heap[smallest], heap[i]
+            i = smallest 
+    return top 
 for i in map(int, input().split()):
-    tree = insert(tree, i)
-bfs(tree)
+    push(h, i)
+cnt = 0
+possible = False
+while h:
+    x = pop(h)
+    if x >= m:
+        possible = True 
+        break 
+    if not h:
+        break 
+    y = 2 * pop(h)
+    push(h, x + y)
+    cnt += 1 
+print(cnt if possible else -1)
+
+# heapq
+import heapq as hq 
+n, m = map(int, input().split())
+h = list(map(int, input().split()))
+hq.heapify(h)
+cnt = 0 
+possible = False 
+while h:
+    x = hq.heappop(h)
+    if x >= m:
+        possible = True 
+        break
+    if not h:
+        break
+    y = 2 * hq.heappop(h)
+    hq.heappush(h, x + y)
+    cnt += 1
+print(cnt if possible else -1)
