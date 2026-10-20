@@ -1,30 +1,44 @@
 n = int(input())
 v = []
 c = []
-def heapify(heap, i, n):
-    temp = heap[i]
-    while True:
-        l = 2*i + 1
-        r = l + 1
-        if l >= n:
-            break
-        if r < n and heap[r] > heap[l]:
-            maxid = r 
-        else:
-            maxid = l 
-        if heap[maxid] > temp:
-            heap[i] = heap[maxid]
-            i = maxid
-        else:
-            break 
-    heap[i] = temp 
 def hs(heap):
     n = len(heap)
+    h = heap 
     for i in range(n // 2 - 1, -1, -1):
-        heapify(heap, i, n)
+        temp = h[i]
+        curr = i 
+        while True:
+            l = 2*curr + 1
+            r = l + 1
+            if l >= n: break 
+            if r < n and h[r] > h[l]:
+                maxid = r 
+            else:
+                maxid = l 
+            if h[maxid] > temp:
+                h[curr] = h[maxid]
+                curr = maxid
+            else:
+                break 
+        h[curr] = temp 
     for i in range(n - 1, 0, -1):
-        heap[0], heap[i] = heap[i], heap[0]
-        heapify(heap, 0, i)
+        h[0], h[i] = h[i], h[0]
+        curr = 0 
+        temp = h[0]
+        while True:
+            l = 2*curr + 1
+            r = l + 1
+            if l >= i: break 
+            if r < i and h[r] > h[l]:
+                maxid = r 
+            else:
+                maxid = l
+            if h[maxid] > temp:
+                h[curr] = h[maxid]
+                curr = maxid 
+            else:
+                break
+        h[curr] = temp 
 vows = set("aeiou")
 for i in input():
     if i in vows:
