@@ -1,33 +1,50 @@
-class TreeNode:
-    def __init__(self, data):
-        self.data = data
-        self.left = None
-        self.right = None
-def insert(root, data):
-    if root is None:
-        return TreeNode(data)
-    cur = root
-    while True:
-        if data < cur.data:
-            if cur.left is None:
-                cur.left = TreeNode(data)
-                return root 
-            cur = cur.left
-        else:
-            if cur.right is None:
-                cur.right = TreeNode(data)
-                return root 
-            cur = cur.right 
-def reverse_inorder(root, total):
-    if root is None:
-        return None 
-    reverse_inorder(root.right, total)
-    root.data += total[0]
-    total[0] = root.data
-    print(root.data, end=" ")
-    reverse_inorder(root.left, total)
+# def hs(heap):
+#     n = len(heap)
+#     h = heap 
+#     for i in range(n // 2 - 1, -1, -1):
+#         temp = h[i]
+#         curr = i 
+#         while True:
+#             l = 2*curr + 1
+#             r = l + 1
+#             if l >= n: break
+#             if r < n and h[r] > h[l]:
+#                 maxid = r 
+#             else:
+#                 maxid = l 
+#             if h[maxid] > temp:
+#                 h[curr] = h[maxid]
+#                 curr = maxid 
+#             else:
+#                 break 
+#         h[curr] = temp 
+#     for i in range(n - 1, 0, -1):
+#         h[0], h[i] = h[i], h[0]
+#         temp = h[0]
+#         curr = 0
+#         while True:
+#             l = 2*curr + 1
+#             r = l + 1
+#             if l >= i: break 
+#             if r < i and h[r] > h[l]:
+#                 maxid = r 
+#             else:
+#                 maxid = l
+#             if h[maxid] > temp:
+#                 h[curr] = h[maxid]
+#                 curr = maxid 
+#             else:
+#                 break 
+#         h[curr] = temp
 n = int(input())
-tree = None 
-for i in map(int, input().split()):
-    tree = insert(tree, i)
-reverse_inorder(tree, [0])
+h = input().split()
+# hs(h)
+found = False
+target = input()
+for char in h:
+    if char > target:
+        found = True
+        print(char)
+        break 
+if not found:
+    print(h[0])

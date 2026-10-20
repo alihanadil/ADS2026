@@ -1,67 +1,47 @@
-# self-made heap
-n, m = map(int, input().split())
-h = []
-def push(heap, x):
-    heap.append(x)
-    i = len(heap) - 1
-    while i > 0:
-        parent = (i - 1) // 2
-        if heap[parent] > heap[i]:
-            heap[i], heap[parent] = heap[parent], heap[i]
-            i = parent 
-        else:
-            break 
-def pop(heap):
-    top = heap[0]
-    last = heap.pop()
-    if heap:
-        heap[0] = last 
-        i = 0
-        n = len(heap) 
+n = int(input())
+dates = []
+def hs(heap):
+    n = len(heap)
+    h = heap 
+    for i in range(n // 2 - 1, -1, -1):
+        temp = h[i]
+        curr = i 
         while True:
-            l = 2*i + 1
+            l = 2*curr + 1
             r = l + 1
-            smallest = i 
-            if l < n and heap[l] < heap[smallest]:
-                smallest = l 
-            if r < n and heap[r] < heap[smallest]:
-                smallest = r
-            if i == smallest:
+            if l >= n: break 
+            if r < n and h[r] > h[l]:
+                maxid = r 
+            else:
+                maxid = l 
+            if h[maxid] > temp:
+                h[curr] = h[maxid]
+                curr = maxid
+            else:
                 break 
-            heap[i], heap[smallest] = heap[smallest], heap[i]
-            i = smallest 
-    return top 
-for i in map(int, input().split()):
-    push(h, i)
-cnt = 0
-possible = False
-while h:
-    x = pop(h)
-    if x >= m:
-        possible = True 
-        break 
-    if not h:
-        break 
-    y = 2 * pop(h)
-    push(h, x + y)
-    cnt += 1 
-print(cnt if possible else -1)
-
-# heapq
-import heapq as hq 
-n, m = map(int, input().split())
-h = list(map(int, input().split()))
-hq.heapify(h)
-cnt = 0 
-possible = False 
-while h:
-    x = hq.heappop(h)
-    if x >= m:
-        possible = True 
-        break
-    if not h:
-        break
-    y = 2 * hq.heappop(h)
-    hq.heappush(h, x + y)
-    cnt += 1
-print(cnt if possible else -1)
+        h[curr] = temp 
+    for i in range(n - 1, 0, -1):
+        h[0], h[i] = h[i], h[0]
+        curr = 0 
+        temp = h[0]
+        while True:
+            l = 2*curr + 1
+            r = l + 1
+            if l >= i: break 
+            if r < i and h[r] > h[l]:
+                maxid = r 
+            else:
+                maxid = l
+            if h[maxid] > temp:
+                h[curr] = h[maxid]
+                curr = maxid 
+            else:
+                break
+        h[curr] = temp 
+for i in range(n):
+    day, month, year = input().split('-')
+    dates.append((year, month, day))
+hs(dates)
+for date in dates:
+    year, month, day = date
+    print('-'.join((day, month, year)))

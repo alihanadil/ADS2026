@@ -1,57 +1,36 @@
-# self-made heap
 n = int(input())
-h = []
-def push(heap, x):
-    heap.append(x)
-    i = len(heap) - 1
-    while i > 0:
-        parent = (i - 1) // 2
-        if heap[parent] > heap[i]:
-            heap[parent], heap[i] = heap[i], heap[parent]
-            i = parent 
+v = []
+c = []
+def heapify(heap, i, n):
+    temp = heap[i]
+    while True:
+        l = 2*i + 1
+        r = l + 1
+        if l >= n:
+            break
+        if r < n and heap[r] > heap[l]:
+            maxid = r 
+        else:
+            maxid = l 
+        if heap[maxid] > temp:
+            heap[i] = heap[maxid]
+            i = maxid
         else:
             break 
-def pop(heap):
-    top = heap[0]
-    last = heap.pop()
-    if heap:
-        heap[0] = last 
-        i = 0 
-        n = len(heap)
-        while True:
-            l = 2*i + 1
-            r = l + 1
-            smallest = i 
-            if l < n and heap[l] < heap[smallest]:
-                smallest = l 
-            if r < n and heap[r] < heap[smallest]:
-                smallest = r 
-            if smallest == i:
-                break 
-            heap[i], heap[smallest] = heap[smallest], heap[i]
-            i = smallest 
-    return top
-for i in map(int, input().split()):
-    push(h, i)
-total = 0
-while len(h) > 1:
-    x = pop(h)
-    y = pop(h)
-    s = x + y
-    total += s 
-    push(h, s)
-print(total)
-
-# heapq
-import heapq as hq 
-n = int(input())
-h = list(map(int, input().split()))
-hq.heapify(h)
-total = 0
-while len(h) > 1:
-    x = hq.heappop(h)
-    y = hq.heappop(h)
-    s = x + y 
-    total += s 
-    hq.heappush(h, s)
-print(total)
+    heap[i] = temp 
+def hs(heap):
+    n = len(heap)
+    for i in range(n // 2 - 1, -1, -1):
+        heapify(heap, i, n)
+    for i in range(n - 1, 0, -1):
+        heap[0], heap[i] = heap[i], heap[0]
+        heapify(heap, 0, i)
+vows = set("aeiou")
+for i in input():
+    if i in vows:
+        v.append(i)
+    else:
+        c.append(i)
+hs(v)
+hs(c)
+print(''.join(v + c))
