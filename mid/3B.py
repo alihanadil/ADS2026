@@ -21,21 +21,20 @@ def insert(root, data):
                 return root 
             curr = curr.right
 def dfs(root):
-    stack = [(root, "new")]
-    heights = {}
-    while stack:
-        node, state = stack.pop()
-        if state == "new":
-            stack.append((node, "ready"))
-            if node.right:
-                stack.append((node.right, "new"))
+    current = [root]
+    cnt = 0
+    while current:
+        len_lvl = len(current)
+        cnt += 1
+        new = []
+        for _ in range(len_lvl):
+            node = current.pop()
             if node.left:
-                stack.append((node.left, "new"))
-        else:
-            lH = heights.get(node.left, 0)
-            rH = heights.get(node.right, 0)
-            heights[node] = 1 + max(lH, rH)
-    return heights[root]
+                new.append(node.left)
+            if node.right:
+                new.append(node.right)
+        current = new 
+    return cnt
 n = int(input())
 tree = None 
 for i in map(int, input().split()):
