@@ -1,8 +1,8 @@
 def merge(lst, l, m, r):
     n1 = m - l + 1
     n2 = r - m 
-    lst1 = lst[l : n1 + l]
-    lst2 = lst[m + 1 : n2 + m + 1]
+    lst1 = lst[l : l + n1]
+    lst2 = lst[m + 1 : m + 1 + n2]
     i, j, k = 0, 0, l 
     while i < n1 and j < n2:
         if lst1[i] <= lst2[j]:

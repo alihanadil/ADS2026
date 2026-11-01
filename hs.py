@@ -7,9 +7,9 @@ def hs(heap):
         while True:
             l = 2*curr + 1
             r = l + 1
-            if l >= n: break
+            if l >= n: break 
             if r < n and h[r] > h[l]:
-                maxid = r 
+                maxid = r
             else:
                 maxid = l 
             if h[maxid] > temp:
