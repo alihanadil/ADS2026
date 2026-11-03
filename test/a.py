@@ -1,50 +1,39 @@
+def merge(lst, l, m, r):
+    n1 = m - l + 1
+    n2 = r - m 
+    lst1 = lst[l : n1 + l]
+    lst2 = lst[m + 1: n2 + m + 1]
+    i, j, k = 0, 0, l 
+    while i < n1 and j < n2:
+        if len(lst1[i]) <= len(lst2[j]):
+            lst[k] = lst1[i]
+            i += 1
+        else:
+            lst[k] = lst2[j]
+            j += 1
+        k += 1
+    while i < n1:
+        lst[k] = lst1[i]
+        k += 1
+        i += 1
+    while j < n2:
+        lst[k] = lst2[j]
+        k += 1
+        j += 1
+def ms(lst):
+    n = len(lst)
+    size = 1
+    while size <= n - 1:
+        ls = 0 
+        while ls < n - 1:
+            m = min(ls + size - 1, n - 1)
+            re = min(ls + 2*size - 1, n - 1)
+            if m < re:
+                merge(lst, ls, m, re)
+            ls += 2*size 
+        size *= 2
 n = int(input())
-v = []
-c = []
-def hs(heap):
-    n = len(heap)
-    h = heap 
-    for i in range(n // 2 - 1, -1, -1):
-        temp = h[i]
-        curr = i 
-        while True:
-            l = 2*curr + 1
-            r = l + 1
-            if l >= n: break 
-            if r < n and h[r] > h[l]:
-                maxid = r 
-            else:
-                maxid = l 
-            if h[maxid] > temp:
-                h[curr] = h[maxid]
-                curr = maxid
-            else:
-                break 
-        h[curr] = temp 
-    for i in range(n - 1, 0, -1):
-        h[0], h[i] = h[i], h[0]
-        curr = 0 
-        temp = h[0]
-        while True:
-            l = 2*curr + 1
-            r = l + 1
-            if l >= i: break 
-            if r < i and h[r] > h[l]:
-                maxid = r 
-            else:
-                maxid = l
-            if h[maxid] > temp:
-                h[curr] = h[maxid]
-                curr = maxid 
-            else:
-                break
-        h[curr] = temp 
-vows = set("aeiou")
-for i in input():
-    if i in vows:
-        v.append(i)
-    else:
-        c.append(i)
-hs(v)
-hs(c)
-print(''.join(v + c))
+for _ in range(n):
+    lst = input().split()
+    ms(lst)
+    print(' '.join(lst))
