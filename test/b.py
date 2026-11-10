@@ -1,18 +1,26 @@
-n = int(input())
-lst1 = list(map(int, input().split()))
-m = int(input())
-lst2 = list(map(int, input().split()))
-i, j = 0, 0 
-while i < n and j < m:
-    if lst1[i] <= lst2[j]:
-        print(lst1[i], end=" ")
-        i += 1
-    else:
-        print(lst2[j], end=" ")
-        j += 1
-while i < n:
-    print(lst1[i], end=" ")
-    i += 1
-while j < m:
-    print(lst2[j], end=" ")
-    j += 1
+s1 = input()
+s2 = input()
+t = input()
+b = 31
+mod = 10**9 + 7
+lt = len(t)
+bt = pow(b, lt, mod)
+ht = 0 
+h1 = [0] * (len(s1) + 1)
+h2 = [0] * (len(s2) + 1)
+cnt = 0
+for i in range(lt):
+    ht = (ht*b + ord(t[i])) % mod 
+for i in range(len(s1)):
+    h1[i+1] = (h1[i]*b + ord(s1[i])) % mod 
+for i in range(len(s2)):
+    h2[i+1] = (h2[i]*b + ord(s2[i])) % mod 
+l = 0 
+smallest = min(len(s1), len(s2))
+while l + lt <= smallest:
+    w1 = (h1[l + lt] - h1[l]*bt) % mod 
+    w2 = (h2[l + lt] - h2[l]*bt) % mod 
+    if w1 == w2 == ht:
+        cnt += 1
+    l += 1
+print(cnt) 

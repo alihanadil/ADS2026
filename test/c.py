@@ -1,50 +1,31 @@
-def merge(lst, l, m, r):
-    n1 = m - l + 1
-    n2 = r - m 
-    lst1 = lst[l : n1 + l]
-    lst2 = lst[m + 1: n2 + m + 1]
-    i, j, k = 0, 0, l 
-    while i < n1 and j < n2:
-        si = sum(lst1[i])
-        sj = sum(lst2[j])
-        if si > sj:
-            lst[k] = lst1[i]
-            i += 1
-        elif si == sj:
-            if lst1[i] < lst2[j]:
-                lst[k] = lst1[i]
-                i += 1
-            else:
-                lst[k] = lst2[j]
-                j += 1
-        else:
-            lst[k] = lst2[j]
-            j += 1
-        k += 1
-    while i < n1:
-        lst[k] = lst1[i]
-        k += 1
-        i += 1
-    while j < n2:
-        lst[k] = lst2[j]
-        k += 1
-        j += 1
-def ms(lst):
-    n = len(lst)
-    size = 1
-    while size <= n - 1:
-        ls = 0 
-        while ls < n - 1:
-            m = min(ls + size - 1, n - 1)
-            re = min(ls + 2*size - 1, n - 1)
-            if m < re:
-                merge(lst, ls, m, re)
-            ls += 2*size 
-        size *= 2
-n,m = map(int, input().split())
-a = []
-for i in range(n):
-    a.append(list(map(int, input().split())))
-ms(a)
-for i in a:
-    print(*i)
+from collections import Counter 
+n = int(input())
+b = 31
+mod = 10**9 + 7
+while n != 0:
+    tar = []
+    cache = {}
+    for i in range(n):
+        tar.append(input())
+    s = input()
+    h_s = [0]*(len(s) + 1)
+    counts = []
+    for i in range(len(s)):
+        h_s[i + 1] = (h_s[i]*b + ord(s[i])) % mod
+    for t in tar:
+        lt = len(t)
+        h = 0
+        for c in t:
+            h = (h*b + ord(c)) % mod
+        if lt not in cache:
+            bt = pow(b, lt, mod)
+            hashes = [(a-c*bt) % mod for (a, c) in zip(h_s[lt:], h_s)]
+            cnt = Counter(hashes)
+            cache[lt] = cnt 
+        counts.append((cache[lt][h], t))
+    maximum = max(counts)[0]
+    print(maximum)
+    for cnt, pat in counts:
+        if cnt == maximum:
+            print(pat)
+    n = int(input())

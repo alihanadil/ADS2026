@@ -1,40 +1,18 @@
-def merge(lst, l, m, r):
-    n1 = m - l + 1
-    n2 = r - m 
-    lst1 = lst[l : n1 + l]
-    lst2 = lst[m + 1: n2 + m + 1]
-    i, j, k = 0, 0, l 
-    while i < n1 and j < n2:
-        if lst1[i] <= lst2[j]:
-            lst[k] = lst1[i]
-            i += 1
-        else:
-            lst[k] = lst2[j]
-            j += 1
-        k += 1
-    while i < n1:
-        lst[k] = lst1[i]
-        k += 1
-        i += 1
-    while j < n2:
-        lst[k] = lst2[j]
-        k += 1
-        j += 1
-def ms(lst):
-    n = len(lst)
-    size = 1
-    while size <= n - 1:
-        ls = 0 
-        while ls < n - 1:
-            m = min(ls + size - 1, n - 1)
-            re = min(ls + 2*size - 1, n - 1)
-            if m < re:
-                merge(lst, ls, m, re)
-            ls += 2*size 
-        size *= 2
-n = int(input())
-lst = []
-for i in map(int, input().split()):
-    lst.append(i*i)
-ms(lst)
-print(*lst)
+s = input()
+n = len(s)
+b = 31
+mod = 10**10
+h = [0] * (n + 1)
+pw = [1] * (n + 1)
+for i in range(1, n+1):
+    pw[i] = pw[i - 1]*b % mod 
+total = 0
+for i in range(n):
+    h[i + 1] = (h[i]*b + ord(s[i])) % mod
+for L in range(1, n + 1):
+    seen = set()
+    for l in range(0, n - L + 1):
+        w =  (h[L + l] - h[l]*pw[L]) % mod 
+        seen.add(w)
+    total += len(seen)
+print(total)

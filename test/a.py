@@ -1,39 +1,18 @@
-def merge(lst, l, m, r):
-    n1 = m - l + 1
-    n2 = r - m 
-    lst1 = lst[l : n1 + l]
-    lst2 = lst[m + 1: n2 + m + 1]
-    i, j, k = 0, 0, l 
-    while i < n1 and j < n2:
-        if len(lst1[i]) <= len(lst2[j]):
-            lst[k] = lst1[i]
-            i += 1
-        else:
-            lst[k] = lst2[j]
-            j += 1
-        k += 1
-    while i < n1:
-        lst[k] = lst1[i]
-        k += 1
-        i += 1
-    while j < n2:
-        lst[k] = lst2[j]
-        k += 1
-        j += 1
-def ms(lst):
-    n = len(lst)
-    size = 1
-    while size <= n - 1:
-        ls = 0 
-        while ls < n - 1:
-            m = min(ls + size - 1, n - 1)
-            re = min(ls + 2*size - 1, n - 1)
-            if m < re:
-                merge(lst, ls, m, re)
-            ls += 2*size 
-        size *= 2
 n = int(input())
-for _ in range(n):
-    lst = input().split()
-    ms(lst)
-    print(' '.join(lst))
+mod = 10**9 + 7 
+cnt = 0 
+nums = []
+for i in range(2*n):
+    nums.append(input())
+all_nums = set(nums)
+for num in nums:
+    h = 0
+    power = 1
+    for i in num:
+        h = (h + (ord(i) - 47)*power) % mod 
+        power = power * 11 % mod
+    if str(h) in all_nums:
+        cnt += 1
+        print(f'Hash of string "{num}" is {h}')
+    if cnt == n:
+        break 
