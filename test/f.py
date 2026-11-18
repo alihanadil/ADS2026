@@ -1,20 +1,28 @@
-from collections import Counter
-s = input()
-n = int(input())
-b = 31
-mod = 10**10
-h_s = [0] * (len(s) + 1)
-ls = len(s)
-cache = {}
-for i in range(ls):
-    h_s[i+1] = (h_s[i]*b + ord(s[i])) % mod
-for i in range(n):
-    l, r = map(int, input().split())
-    lt = r - l + 1
-    bt = pow(b, lt, mod)
-    if lt not in cache:
-        hashes = [(a - c*bt) % mod for (a, c) in zip(h_s[lt: ], h_s)]
-        cnt = Counter(hashes)
-        cache[lt] = cnt 
-    w = (h_s[r] - h_s[l - 1]*bt) % mod 
-    print(cache[lt][w])
+def build_lps(p):
+    lps = [0] * len(p)
+    k = 0
+    for i in range(1, len(p)):
+        while k > 0 and p[i] != p[k]:
+            k = lps[k - 1]
+        if p[i] == p[k]:
+            k += 1
+        lps[i] = k 
+    return lps 
+def kmp(t, p):
+    lps = build_lps(p)
+    res = []
+    k = 0 
+    for i, c in enumerate(t):
+        while k > 0 and c != p[k]:
+            k = lps[k - 1]
+        if c == p[k]:
+            k += 1
+        if k == len(p):
+            res.append(i - k + 1)
+            k = lps[k - 1]
+    return res
+t = input()
+p = input()
+res = kmp(t, p)
+print(len(res))
+print(' '.join(str(i  + 1) for i in res))

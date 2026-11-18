@@ -1,18 +1,37 @@
-n = int(input())
-mod = 10**9 + 7 
-cnt = 0 
-nums = []
-for i in range(2*n):
-    nums.append(input())
-all_nums = set(nums)
-for num in nums:
-    h = 0
-    power = 1
-    for i in num:
-        h = (h + (ord(i) - 47)*power) % mod 
-        power = power * 11 % mod
-    if str(h) in all_nums:
-        cnt += 1
-        print(f'Hash of string "{num}" is {h}')
-    if cnt == n:
+def build_lps(p):
+    lps = [0] * len(p)
+    k = 0
+    for i in range(1, len(p)):
+        while k > 0 and p[k] != p[i]:
+            k = lps[k - 1]
+        if p[k] == p[i]:
+            k += 1
+        lps[i] = k 
+    return lps 
+def kmp(t, p, k, lps, lp):
+    for c in t:
+        while k[-1] > 0 and c != p[k[-1]]:
+            k[-1] = lps[k[-1] - 1]
+        if c == p[k[-1]]:
+            k[-1] += 1
+        if k[-1] == lp:
+            return True 
+    return False
+t = input()
+p = input()
+lps = build_lps(p)
+lp = len(p)
+k = [0]
+res = None 
+needed = (len(t) - 1) + lp 
+limit = (needed + len(t) + 1) // len(t)
+n = 1
+while True:
+    res = kmp(t, p, k, lps, lp)
+    if res:
+        print(n)
+        break
+    elif n == limit:
+        print(-1)
         break 
+    n += 1

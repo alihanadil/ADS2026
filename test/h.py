@@ -1,50 +1,21 @@
-# def hs(heap):
-#     n = len(heap)
-#     h = heap 
-#     for i in range(n // 2 - 1, -1, -1):
-#         temp = h[i]
-#         curr = i 
-#         while True:
-#             l = 2*curr + 1
-#             r = l + 1
-#             if l >= n: break
-#             if r < n and h[r] > h[l]:
-#                 maxid = r 
-#             else:
-#                 maxid = l 
-#             if h[maxid] > temp:
-#                 h[curr] = h[maxid]
-#                 curr = maxid 
-#             else:
-#                 break 
-#         h[curr] = temp 
-#     for i in range(n - 1, 0, -1):
-#         h[0], h[i] = h[i], h[0]
-#         temp = h[0]
-#         curr = 0
-#         while True:
-#             l = 2*curr + 1
-#             r = l + 1
-#             if l >= i: break 
-#             if r < i and h[r] > h[l]:
-#                 maxid = r 
-#             else:
-#                 maxid = l
-#             if h[maxid] > temp:
-#                 h[curr] = h[maxid]
-#                 curr = maxid 
-#             else:
-#                 break 
-#         h[curr] = temp
-n = int(input())
-h = input().split()
-# hs(h)
-found = False
-target = input()
-for char in h:
-    if char > target:
-        found = True
-        print(char)
-        break 
-if not found:
-    print(h[0])
+def build_lps(p, lim, lp):
+    lps = [0] * lp
+    k = 0 
+    ans = 0
+    for i in range(1, 2*lim):
+        while k > 0 and p[i] != p[k]:
+            k = lps[k - 1]
+        if p[i] == p[k]:
+            k += 1
+        lps[i] = k 
+        if i % 2 != 0:
+            L = (i + 1) // 2
+            d = 2*L - lps[i]
+            if L % d == 0:
+                ans += 1
+    return ans 
+t = input()
+n = len(t)
+lim = (n - 1) // 2
+lps = build_lps(t, lim, n)
+print(lps)

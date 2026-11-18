@@ -1,26 +1,30 @@
-s1 = input()
-s2 = input()
+def build_lps(p):
+    lps = [0] * len(p)
+    k = 0
+    for i in range(1, len(p)):
+        while k > 0 and p[i] != p[k]:
+            k = lps[k - 1]
+        if p[k] == p[i]:
+            k += 1
+        lps[i] = k 
+    return lps 
+def kmp(t, p):
+    lps = build_lps(p)
+    k = 0
+    res = []
+    for i, c in enumerate(t):
+        while k > 0 and c != p[k]:
+            k = lps[k - 1]
+        if c == p[k]:
+            k += 1
+        if k == len(p):
+            res.append(i - k + 1)
+            k = lps[k - 1]
+    return res
+p, k = input().split()
 t = input()
-b = 31
-mod = 10**9 + 7
-lt = len(t)
-bt = pow(b, lt, mod)
-ht = 0 
-h1 = [0] * (len(s1) + 1)
-h2 = [0] * (len(s2) + 1)
-cnt = 0
-for i in range(lt):
-    ht = (ht*b + ord(t[i])) % mod 
-for i in range(len(s1)):
-    h1[i+1] = (h1[i]*b + ord(s1[i])) % mod 
-for i in range(len(s2)):
-    h2[i+1] = (h2[i]*b + ord(s2[i])) % mod 
-l = 0 
-smallest = min(len(s1), len(s2))
-while l + lt <= smallest:
-    w1 = (h1[l + lt] - h1[l]*bt) % mod 
-    w2 = (h2[l + lt] - h2[l]*bt) % mod 
-    if w1 == w2 == ht:
-        cnt += 1
-    l += 1
-print(cnt) 
+ans = kmp(t, p)
+if int(k) <= len(ans):
+    print("YES")
+else:
+    print("NO")

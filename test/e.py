@@ -1,18 +1,15 @@
-s = input()
-n = len(s)
-b = 31
-mod = 10**10
-h = [0] * (n + 1)
-pw = [1] * (n + 1)
-for i in range(1, n+1):
-    pw[i] = pw[i - 1]*b % mod 
-total = 0
+def build_lps(p):
+    lps = [0] * len(p)
+    k = 0 
+    for i in range(1, len(p)):
+        while k > 0 and p[i] != p[k]:
+            k = lps[k - 1]
+        if p[i] == p[k]:
+            k += 1
+        lps[i] = k 
+    return lps 
+n = int(input())
 for i in range(n):
-    h[i + 1] = (h[i]*b + ord(s[i])) % mod
-for L in range(1, n + 1):
-    seen = set()
-    for l in range(0, n - L + 1):
-        w =  (h[L + l] - h[l]*pw[L]) % mod 
-        seen.add(w)
-    total += len(seen)
-print(total)
+    p, k = input().split()
+    lps = build_lps(p)
+    print(len(p) + (len(p) - lps[-1])*(int(k) - 1))

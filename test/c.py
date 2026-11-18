@@ -1,31 +1,27 @@
-from collections import Counter 
-n = int(input())
-b = 31
-mod = 10**9 + 7
-while n != 0:
-    tar = []
-    cache = {}
-    for i in range(n):
-        tar.append(input())
-    s = input()
-    h_s = [0]*(len(s) + 1)
-    counts = []
-    for i in range(len(s)):
-        h_s[i + 1] = (h_s[i]*b + ord(s[i])) % mod
-    for t in tar:
-        lt = len(t)
-        h = 0
-        for c in t:
-            h = (h*b + ord(c)) % mod
-        if lt not in cache:
-            bt = pow(b, lt, mod)
-            hashes = [(a-c*bt) % mod for (a, c) in zip(h_s[lt:], h_s)]
-            cnt = Counter(hashes)
-            cache[lt] = cnt 
-        counts.append((cache[lt][h], t))
-    maximum = max(counts)[0]
-    print(maximum)
-    for cnt, pat in counts:
-        if cnt == maximum:
-            print(pat)
-    n = int(input())
+def build_lps(p):
+    lps = [0] * len(p)
+    k = 0 
+    for i in range(1, len(p)):
+        while k > 0 and p[i] != p[k]:
+            k = lps[k - 1]
+        if p[i] == p[k]:
+            k += 1
+        lps[i] = k 
+    return lps 
+def kmp(t, p):
+    lps = build_lps(p)
+    k = 0 
+    res = []
+    for i, c in enumerate(t):
+        while k > 0 and c != p[k]:
+            k = lps[k - 1]
+        if c == p[k]:
+            k += 1
+        if k == len(p):
+            res.append(i - k + 1)
+            k = lps[k - 1]
+    return res 
+t = input()
+p = input()
+ans = kmp(p * 2, t)
+print(ans[0] if ans else - 1)
